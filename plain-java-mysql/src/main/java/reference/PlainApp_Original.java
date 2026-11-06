@@ -1,3 +1,4 @@
+package reference;
 
 import java.sql.Connection;
 
@@ -6,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Plain {
+public class PlainApp_Original {
     // Replace with your actual database details
     private static final String URL = "jdbc:mysql://localhost:3306/plain_app_db";
     private static final String USER = "root";
