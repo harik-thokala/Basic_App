@@ -5,6 +5,8 @@ package com.example.Url.service;
 import com.example.Url.model.UrlEntity;
 import com.example.Url.repository.UrlRepository;
 import com.example.Url.util.Base62Encoder;
+
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,13 +29,14 @@ public class UrlService {
         return Base62Encoder.encode(entity.getId());
     }
 
+    @Cacheable(value = "urls", key = "#shortCode")
     public String getOriginalUrl(String shortCode) {
-        long id = Base62Encoder.decode(shortCode);
+        System.out.println(">>> CACHE MISS! Hitting MySQL for code: " + shortCode);
         
+        long id = Base62Encoder.decode(shortCode);
         UrlEntity entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("URL not found"));
                 
-        // Increment click count
         entity.setClickCount(entity.getClickCount() + 1);
         repository.save(entity);
 
